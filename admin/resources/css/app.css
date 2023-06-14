@@ -1,0 +1,29 @@
+.post-item {
+    display: flex;
+    align-items: center;
+}
+
+.post-item > div {
+    margin-right: 10px;
+}
+
+.post-list-ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li.post-item {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100}
+
+.post-item div,
+.post-item button {
+    margin: 3px;
+}
