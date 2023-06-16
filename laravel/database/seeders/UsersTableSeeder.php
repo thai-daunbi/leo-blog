@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,26 +14,11 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
-            [
-                'id' => 1,
-                'name' => 'leo',
-                'city_id' => 1,
-                'email' => 'leo@mail.com',
-            ],
-            [
-                'id' => 2,
-                'name' => 'john',
-                'city_id' => 2,
-                'email' => 'john@mail.com',
-            ],
-            [
-                'id' => 3,
-                'name' => 'lisa',
-                'city_id' => 3,
-                'email' => 'lisa@mail.com',
-            ],
-            
+        User::create([
+            'name' => 'admin',
+            'email' => 'admin@mail.com',
+            'password' => '$2y$10$pmqRjJSevECzV0BTdzeLxetc4eClaw/EYG1Q0GD0apuG5szm28RP6' //aaaa1111
         ]);
+        User::factory()->times(3)->create();
     }
 }
