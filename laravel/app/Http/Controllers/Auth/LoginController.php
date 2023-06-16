@@ -61,7 +61,9 @@ class LoginController extends Controller
     }
     public function redirectToProvider()
     {
-        return Socialite::driver('facebook')->redirect();
+        return Socialite::driver('facebook')
+        ->scopes(['email']) // 스코프(권한) 추가
+        ->redirect();
     }
 
     /**
