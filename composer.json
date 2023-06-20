@@ -1,7 +1,6 @@
 {
     "require": {
         "laravel/ui": "^4.2",
-        "jeroennoten/laravel-adminlte": "^3.9",
-        "laravel/jetstream": "^3.2"
+        "jeroennoten/laravel-adminlte": "^3.9"
     }
 }

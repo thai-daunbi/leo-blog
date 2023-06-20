@@ -65,11 +65,9 @@
                             </div>
                         </div>
                     </form>
-                    <a href="/login/facebook">Facebook로그인</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
-

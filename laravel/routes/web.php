@@ -5,7 +5,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReplyController;
-use App\Http\Controllers\FacebookController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -41,8 +40,3 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dislike', [PostController::class, 'fetchDislike']);
     Route::post('/dislike/{id}', [PostController::class, 'handleDislike']);
 });
-
-Route::get('/login/facebook', [App\Http\Controllers\Auth\LoginController::class, 'redirectToProvider']);
-Route::get('/login/facebook/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleProviderCallback']);
-
-Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
