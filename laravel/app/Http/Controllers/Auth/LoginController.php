@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Socialite;
 
 class LoginController extends Controller
 {
@@ -56,6 +57,55 @@ class LoginController extends Controller
 
     return back()->withErrors(['email' => '이 이메일 주소로 가입된 사용자가 없거나 비밀번호가 틀렸습니다. 확인 후 다시 시도해주세요']);
 }
+
+public function redirectToProvider()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    /**
+     * Obtain the user information from GitHub.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function handleProviderCallback()
+    {
+        try {
+            $user = Socialite::driver('facebook')->user();
+            // dd($user); // Facebookから取得した情報を表示
+        } catch (\Exception $e) {
+            return redirect('login/facebook');
+        }
+
+        // すでにFacebook登録済みじゃなかったらユーザーを登録する
+        $userModel = User::where('facebook_id', $user->id)->first();
+        if (!$userModel) {
+            $userModel = new User([
+                'name' => $user->name,
+                'email' => $user->email,
+                'facebook_id' => $user->id
+            ]);
+            $userModel->save();
+        }
+        // ログインする
+        Auth::login($userModel);
+        // /homeにリダイレクト
+        return redirect('home');
+    }
+
+    /**
+     * Logout, Clear Session, and Return.
+     *
+     * @return void
+     */
+    public function logout()
+    {
+        $user = Auth::user();
+        Log::info('User Logged Out. ', [$user]);
+        Auth::logout();
+        Session::flush();
+        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/home');
+    }
 
 
 

@@ -65,6 +65,7 @@
                             </div>
                         </div>
                     </form>
+                    <a href="/login/facebook">Facebook으로 로그인</a>
                 </div>
             </div>
         </div>

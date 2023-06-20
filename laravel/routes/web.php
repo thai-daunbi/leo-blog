@@ -39,4 +39,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::post('/dislike', [PostController::class, 'fetchDislike']);
     Route::post('/dislike/{id}', [PostController::class, 'handleDislike']);
+
+    Route::get('/login/facebook', [LoginController::class, 'redirectToProvider']);
+    Route::get('/login/facebook/callback', [LoginController::class, 'handleProviderCallback']);
 });
