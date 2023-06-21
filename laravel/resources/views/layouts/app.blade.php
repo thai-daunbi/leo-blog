@@ -26,8 +26,12 @@
         window.fbAsyncInit = function() {
             FB.init({
             appId      : '1302467250345117',
-            xfbml      : true,
-            version    : 'v12.0'
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v2.12',
+            status		   : true, // 자동로그인 여부
+            cookie		   : true, // 쿠키 사용 여부
+            channelUrl       : 'http://localhost:8090/login/facebook/callback' //channel.html 설정
             });
             FB.AppEvents.logPageView();
         };

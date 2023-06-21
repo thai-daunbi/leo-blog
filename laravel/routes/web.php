@@ -40,6 +40,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dislike', [PostController::class, 'fetchDislike']);
     Route::post('/dislike/{id}', [PostController::class, 'handleDislike']);
 
-    Route::get('/login/facebook', [LoginController::class, 'redirectToProvider']);
-    Route::get('/login/facebook/callback', [LoginController::class, 'handleProviderCallback']);
+    #Facebook Login
+    Route::get('/login/facebook', [App\Http\Controllers\Auth\LoginController::class, 'redirectToProvider'])->name('redirecttoprovider');
+    Route::get('/login/facebook', [App\Http\Controllers\Auth\LoginController::class, 'loginWithFacebook']);
+    Route::get('/login/facebook/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleProviderCallback']);
+
+    Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 });

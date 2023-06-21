@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use Socialite;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -31,6 +34,7 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectAfterLogout = '/your-desired-logout-redirect-url';
 
     /**
      * Create a new controller instance.
@@ -43,22 +47,22 @@ class LoginController extends Controller
     }
 
     public function authenticate(Request $request)
-{
-    $credentials = $request->only('email', 'password');
-    $user = User::where('email', $request->email)->first();
+    {
+        $credentials = $request->only('email', 'password');
+        $user = User::where('email', $request->email)->first();
 
-    if (is_null($user) || $user->status == 1) {
-        return back()->withErrors(['email' => '이 이메일은 사용할 수 없습니다']);
+        if (is_null($user) || $user->status == 1) {
+            return back()->withErrors(['email' => '이 이메일은 사용할 수 없습니다']);
+        }
+
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('dashboard');
+        }
+
+        return back()->withErrors(['email' => '이 이메일 주소로 가입된 사용자가 없거나 비밀번호가 틀렸습니다. 확인 후 다시 시도해주세요']);
     }
 
-    if (Auth::attempt($credentials)) {
-        return redirect()->intended('dashboard');
-    }
-
-    return back()->withErrors(['email' => '이 이메일 주소로 가입된 사용자가 없거나 비밀번호가 틀렸습니다. 확인 후 다시 시도해주세요']);
-}
-
-public function redirectToProvider()
+    public function redirectToProvider()
     {
         return Socialite::driver('facebook')->redirect();
     }
@@ -68,8 +72,11 @@ public function redirectToProvider()
      *
      * @return \Illuminate\Http\Response
      */
-    public function handleProviderCallback()
+    public function handleProviderCallback(): RedirectResponse
     {
+
+        // error_log("hi");
+        // exit;
         try {
             $user = Socialite::driver('facebook')->user();
             // dd($user); // Facebookから取得した情報を表示
@@ -89,16 +96,17 @@ public function redirectToProvider()
         }
         // ログインする
         Auth::login($userModel);
-        // /homeにリダイレクト
+        // /home으로 리디렉션합니다
         return redirect('home');
     }
+
 
     /**
      * Logout, Clear Session, and Return.
      *
      * @return void
      */
-    public function logout()
+    public function logout(): RedirectResponse
     {
         $user = Auth::user();
         Log::info('User Logged Out. ', [$user]);
@@ -107,7 +115,9 @@ public function redirectToProvider()
         return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/home');
     }
 
-
-
+    public function loginWithFacebook()
+    {
+        return $this->redirectToProvider();
+    }
 
 }

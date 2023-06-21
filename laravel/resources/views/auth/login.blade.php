@@ -65,10 +65,23 @@
                             </div>
                         </div>
                     </form>
-                    <a href="/login/facebook">Facebook으로 로그인</a>
+                    <a href="#" onClick="loginWithFacebook()">Facebook으로 로그인</a>
+                    <div id="fb-root"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function loginWithFacebook() {
+        FB.login(function(response) {
+            if (response.authResponse) {
+                // 로그인 성공시 리디렉션: /login/facebook
+                window.location.href = "/login/facebook";
+            } else {
+                console.log("Facebook 로그인 실패");
+            }
+        });
+    }
+</script>
 @endsection
