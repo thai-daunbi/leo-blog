@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Http\Response;
 
 class LoginController extends Controller
 {
@@ -72,32 +73,36 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function handleProviderCallback(): RedirectResponse
+    public function handleFacebookCallback(Request $request)
     {
-
-        // error_log("hi");
-        // exit;
         try {
-            $user = Socialite::driver('facebook')->user();
-            // dd($user); // Facebookから取得した情報を表示
+            $user = Socialite::driver('facebook')->userFromToken($request->input('access_token'));
         } catch (\Exception $e) {
-            return redirect('login/facebook');
+            // 리디렉션 대신 JSON 응답을 반환합니다.
+            return response()->json([
+                'status' => 'failure',
+                'message' => 'Facebook 로그인에 실패했습니다.',
+            ]);
         }
 
-        // すでにFacebook登録済みじゃなかったらユーザーを登録する
         $userModel = User::where('facebook_id', $user->id)->first();
+
         if (!$userModel) {
             $userModel = new User([
                 'name' => $user->name,
                 'email' => $user->email,
-                'facebook_id' => $user->id
+                'facebook_id' => $user->id,
             ]);
             $userModel->save();
         }
-        // ログインする
+
         Auth::login($userModel);
-        // /home으로 리디렉션합니다
-        return redirect('home');
+
+        // 리디렉션 대신 JSON 응답을 반환합니다.
+        return response()->json([
+            'status' => 'success',
+            'message' => '로그인에 성공하였습니다.',
+        ]);
     }
 
 

@@ -22,27 +22,6 @@
 
 </head>
 <body>
-    <script>
-        window.fbAsyncInit = function() {
-            FB.init({
-            appId      : '1302467250345117',
-            autoLogAppEvents : true,
-            xfbml            : true,
-            version          : 'v2.12',
-            status		   : true, // 자동로그인 여부
-            cookie		   : true, // 쿠키 사용 여부
-            channelUrl       : 'http://localhost:8090/login/facebook/callback' //channel.html 설정
-            });
-            FB.AppEvents.logPageView();
-        };
-        (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">

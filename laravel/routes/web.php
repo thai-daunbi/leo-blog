@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
 
     #Facebook Login
     Route::get('/login/facebook', [App\Http\Controllers\Auth\LoginController::class, 'redirectToProvider'])->name('redirecttoprovider');
-    Route::get('/login/facebook', [App\Http\Controllers\Auth\LoginController::class, 'loginWithFacebook']);
+    // Route::get('/login/facebook', [App\Http\Controllers\Auth\LoginController::class, 'loginWithFacebook']);
     Route::get('/login/facebook/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleProviderCallback']);
 
     Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');

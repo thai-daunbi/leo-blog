@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <!-- <form method="POST" action="{{ route('login') }}">
                         @csrf
 
                         <div class="row mb-3">
@@ -64,14 +64,37 @@
                                 @endif
                             </div>
                         </div>
-                    </form>
-                    <a href="#" onClick="loginWithFacebook()">Facebook으로 로그인</a>
+                    </form> -->
+                    <button type="button" onclick="loginWithFacebook()">Facebook으로 로그인</button>
+
                     <div id="fb-root"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '1302467250345117',
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v17.0',
+            status		   : true, // 자동로그인 여부
+            cookie		   : true, // 쿠키 사용 여부
+            channelUrl       : 'http://localhost:8090/login/facebook/callback' //channel.html 설정
+        });
+        FB.AppEvents.logPageView();
+    };
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
 <script>
     function loginWithFacebook() {
         FB.login(function(response) {
