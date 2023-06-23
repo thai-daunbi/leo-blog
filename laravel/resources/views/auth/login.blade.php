@@ -65,14 +65,18 @@
                             </div>
                         </div>
                     </form> -->
-                    <button type="button" onclick="loginWithFacebook()">Facebook으로 로그인</button>
-
+                    <!-- <button type="button" onclick="loginWithFacebook()">Facebook으로 로그인</button> -->
+                    <fb:login-button
+                        scope="public_profile,email"
+                        onlogin="checkLoginState();">
+                    </fb:login-button>
                     <div id="fb-root"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 <script>
     window.fbAsyncInit = function() {
         FB.init({
@@ -85,26 +89,28 @@
             channelUrl       : 'http://localhost:8090/login/facebook/callback' //channel.html 설정
         });
         FB.AppEvents.logPageView();
-    };
-    (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
-
-<script>
-    function loginWithFacebook() {
-        FB.login(function(response) {
-            if (response.authResponse) {
-                // 로그인 성공시 리디렉션: /login/facebook
-                window.location.href = "/login/facebook";
-            } else {
-                console.log("Facebook 로그인 실패");
-            }
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
         });
-    }
+        (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        function loginWithFacebook() {
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    // 로그인 성공시 리디렉션: /login/facebook
+                    window.location.href = "/login/facebook";
+                } else {
+                    console.log("Facebook 로그인 실패");
+                }
+            });
+        };
+    };
+    
 </script>
 @endsection
