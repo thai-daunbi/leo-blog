@@ -15,7 +15,7 @@ class AddFacebookIdToUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('facebook_id')->nullable()->unique();
-            $table->string('password')->nullable()->change();
+            // $table->string('password')->nullable()->change();
         });
     }
 

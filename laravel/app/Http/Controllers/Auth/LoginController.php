@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\RedirectResponse;
+use Exception;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
@@ -73,37 +74,44 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function handleFacebookCallback(Request $request)
-    {
-        try {
-            $user = Socialite::driver('facebook')->userFromToken($request->input('access_token'));
-        } catch (\Exception $e) {
-            // 리디렉션 대신 JSON 응답을 반환합니다.
-            return response()->json([
-                'status' => 'failure',
-                'message' => 'Facebook 로그인에 실패했습니다.',
-            ]);
+    public function handleProviderCallback(): RedirectResponse
+{
+    try {
+
+        $user = Socialite::driver('facebook')->user();
+
+        if(!$user) {
+            // 만약 Facebook SDK에서 사용자 정보가 제대로 반환되지 않으면 에러 처리
+            return redirect()->route('login')->with('error', 'Facebook authentication error: Failed to fetch user information from Facebook.');
         }
 
-        $userModel = User::where('facebook_id', $user->id)->first();
+        $finduser = User::where('facebook_id', $user->id)->first();
 
-        if (!$userModel) {
-            $userModel = new User([
+        if($finduser){
+
+            Auth::login($finduser);
+
+            return redirect()->intended('dashboard');
+
+        }else{
+            $newUser = User::create([
                 'name' => $user->name,
                 'email' => $user->email,
-                'facebook_id' => $user->id,
+                'facebook_id'=> $user->id,
+                'password' => encrypt('Test123456')
             ]);
-            $userModel->save();
+
+            Auth::login($newUser);
+
+            return redirect()->intended('dashboard');
         }
 
-        Auth::login($userModel);
-
-        // 리디렉션 대신 JSON 응답을 반환합니다.
-        return response()->json([
-            'status' => 'success',
-            'message' => '로그인에 성공하였습니다.',
-        ]);
+    } catch (Exception $e) {
+        // Facebook SDK에서 예외가 발생하면 에러 처리
+        return redirect()->route('login')->with('error', 'Facebook authentication error: '.$e->getMessage());
     }
+}
+
 
 
     /**

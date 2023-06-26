@@ -65,52 +65,74 @@
                             </div>
                         </div>
                     </form> -->
+                    <!-- <a href="#" onClick="loginWithFacebook()">Facebook으로 로그인</a> -->
                     <!-- <button type="button" onclick="loginWithFacebook()">Facebook으로 로그인</button> -->
-                    <fb:login-button
+                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+                    <script>
+                        function statusChangeCallback(response) {
+                            if (response.status === 'connected') {
+                                // 로그인 상태가 연결된 경우 실행되는 코드
+                            } else {
+                                // 로그인 상태가 연결되지 않은 경우 실행되는 코드
+                            }
+                        }
+
+                        function checkLoginState() {
+                            FB.getLoginStatus(function(response) {
+                                statusChangeCallback(response);
+                            });
+                        }
+
+                        function loginWithFacebook() {
+                            FB.login(function(response) {
+                                if (response.authResponse) {
+                                    // 로그인 성공시 리디렉션: /login/facebook
+                                    window.location.href = "/login/facebook";
+                                } else {
+                                    console.log("Facebook 로그인 실패");
+                                }
+                            });
+                        }
+
+                        window.fbAsyncInit = function() {
+                            FB.init({
+                                appId      : '1302467250345117',
+                                autoLogAppEvents : true,
+                                xfbml            : true,
+                                version          : 'v17.0',
+                                status           : true, // 자동로그인 여부
+                                cookie           : true, // 쿠키 사용 여부
+                                channelUrl       : 'https://localhost:8090/login/facebook/callback' //channel.html 설정
+                            });
+                            FB.AppEvents.logPageView();
+                            (function(d, s, id){
+                            var js, fjs = d.getElementsByTagName(s)[0];
+                                if (d.getElementById(id)) {return;}
+                                js = d.createElement(s); js.id = id;
+                                js.src = "https://connect.facebook.net/en_US/sdk.js";
+                                fjs.parentNode.insertBefore(js, fjs);
+                            }(document, 'script', 'facebook-jssdk'));
+
+                        };
+                        
+                    </script>
+                    <a href="javascript:void(0)" id="btn-fblogin" onclick="loginWithFacebook()">
+                        <i class="fa fa-facebook-square" aria-hidden="true"></i> Login with Facebook
+                    </a>
+                    <!-- <div class="flex items-center justify-end mt-4">
+                        <a class="ml-1 btn btn-primary" href="{{ url('login/facebook') }}" style="margin-top: 0px !important;background: #4c6ef5;color: #ffffff;padding: 5px;border-radius:7px;" id="btn-fblogin">
+                            <i class="fa fa-facebook-square" aria-hidden="true"></i> Login with Facebook
+                        </a>
+                    </div> -->
+                    <!-- <fb:login-button
                         scope="public_profile,email"
                         onlogin="checkLoginState();">
-                    </fb:login-button>
+                    </fb:login-button> -->
                     <div id="fb-root"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '1302467250345117',
-            autoLogAppEvents : true,
-            xfbml            : true,
-            version          : 'v17.0',
-            status		   : true, // 자동로그인 여부
-            cookie		   : true, // 쿠키 사용 여부
-            channelUrl       : 'http://localhost:8090/login/facebook/callback' //channel.html 설정
-        });
-        FB.AppEvents.logPageView();
-        FB.getLoginStatus(function(response) {
-            statusChangeCallback(response);
-        });
-        (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
 
-        function loginWithFacebook() {
-            FB.login(function(response) {
-                if (response.authResponse) {
-                    // 로그인 성공시 리디렉션: /login/facebook
-                    window.location.href = "/login/facebook";
-                } else {
-                    console.log("Facebook 로그인 실패");
-                }
-            });
-        };
-    };
-    
-</script>
 @endsection
