@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'linkedin' => [
+            'driver' => 'session',
+            'provider' => 'linkedins',
+        ],
     ],
 
     /*
@@ -65,6 +69,11 @@ return [
             'model' => App\Models\User::class,
         ],
 
+        'linkedins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Linkedin::class,
+        ],
+        
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

@@ -80,12 +80,19 @@
                         scope="public_profile,email"
                         onlogin="checkLoginState();">
                     </fb:login-button> -->
+
+                    <div class="form-group">
+                        <div class="col-md-8 col-md-offset-4">
+                            <a href="{{ route('auth.linkedin') }}" class="btn btn-secondary">Login with LinkedIn</a>
+                        </div>
+                    </div>
+
                     <div id="fb-root"></div>
                 </div>
             </div>
         </div>
         <!-- facebook login -->
-        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+        <!-- <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
         <script>
             function statusChangeCallback(response) {
                 if (response.status === 'connected') {
@@ -133,7 +140,7 @@
 
             };
             
-        </script>
+        </script> -->
     </div>
 </div>
 
