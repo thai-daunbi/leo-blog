@@ -74,43 +74,63 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function handleProviderCallback(): RedirectResponse
+
+     public function handleLinkedinCallback(Request $request): Application|RedirectResponse|Redirector
 {
     try {
-
-        $user = Socialite::driver('facebook')->user();
-
-        if(!$user) {
-            // 만약 Facebook SDK에서 사용자 정보가 제대로 반환되지 않으면 에러 처리
-            return redirect()->route('login')->with('error', 'Facebook authentication error: Failed to fetch user information from Facebook.');
-        }
-
-        $finduser = User::where('facebook_id', $user->id)->first();
-
-        if($finduser){
-
-            Auth::login($finduser);
-
-            return redirect()->intended('dashboard');
-
-        }else{
-            $newUser = User::create([
-                'name' => $user->name,
-                'email' => $user->email,
-                'facebook_id'=> $user->id,
-                'password' => encrypt('Test123456')
-            ]);
-
-            Auth::login($newUser);
-
-            return redirect()->intended('dashboard');
-        }
-
-    } catch (Exception $e) {
-        // Facebook SDK에서 예외가 발생하면 에러 처리
-        return redirect()->route('login')->with('error', 'Facebook authentication error: '.$e->getMessage());
+        $user = Socialite::driver('linkedin')->user();
+    } catch (\Exception $e) {
+        return redirect('/');
     }
+
+    // 이 부분
+    if (is_null($user->email)) {
+        return redirect('/');
+    }
+    
+    $authLinkedin = $this->findOrCreateLinkedin($user);
+    Auth::guard('linkedin')->login($authLinkedin, true);
+
+    return redirect()->to('/');
 }
+
+//     public function handleProviderCallback(): RedirectResponse
+// {
+//     try {
+
+//         $user = Socialite::driver('facebook')->user();
+
+//         if(!$user) {
+//             // 만약 Facebook SDK에서 사용자 정보가 제대로 반환되지 않으면 에러 처리
+//             return redirect()->route('login')->with('error', 'Facebook authentication error: Failed to fetch user information from Facebook.');
+//         }
+
+//         $finduser = User::where('facebook_id', $user->id)->first();
+
+//         if($finduser){
+
+//             Auth::login($finduser);
+
+//             return redirect()->intended('dashboard');
+
+//         }else{
+//             $newUser = User::create([
+//                 'name' => $user->name,
+//                 'email' => $user->email,
+//                 'facebook_id'=> $user->id,
+//                 'password' => encrypt('Test123456')
+//             ]);
+
+//             Auth::login($newUser);
+
+//             return redirect()->intended('dashboard');
+//         }
+
+//     } catch (Exception $e) {
+//         // Facebook SDK에서 예외가 발생하면 에러 처리
+//         return redirect()->route('login')->with('error', 'Facebook authentication error: '.$e->getMessage());
+//     }
+// }
 
 
 
