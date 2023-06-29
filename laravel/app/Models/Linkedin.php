@@ -10,10 +10,16 @@ class Linkedin extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'user_id',
+        'provider_name',
+        'provider_id',
+        'user',
         'email',
-        'password',
-        'provider',
-        'provider_id'
+        'token',
+        'refresh_id',
     ];
+
+    public function user(){
+        return $this->belogsTo(User::class);
+    }
 }

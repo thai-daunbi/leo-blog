@@ -81,11 +81,22 @@
                         onlogin="checkLoginState();">
                     </fb:login-button> -->
 
-                    <div class="form-group">
+                    <!-- linkedin -->
+                    <!-- <div class="form-group">
                         <div class="col-md-8 col-md-offset-4">
                             <a href="{{ route('auth.linkedin') }}" class="btn btn-secondary">Login with LinkedIn</a>
                         </div>
+                    </div> -->
+
+                    <div class="block mt-4">
+                    <div class="col-12 text-center">
+                        @foreach(config('app_frontend.supported_social_login') as $social)
+                        <a href="{{ route('social.login',$social ) }}" class="btn btn-primary">Login with {{ $social }}</a>
+
+                        @endforeach
+
                     </div>
+                </div>
 
                     <div id="fb-root"></div>
                 </div>

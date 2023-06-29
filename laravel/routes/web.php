@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\SocialController;
+use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', function () {
     return view('welcome');
@@ -54,7 +55,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
     #Linkedin Login
-    Route::get('/auth/linkedin', [SocialController::class, 'redirectToLinkedIn'])->name('auth.linkedin');
-    Route::get('/auth/linkedin/callback', [SocialController::class, 'handleLinkedInCallback']);
+    // Route::get('/auth/linkedin', [SocialController::class, 'redirectToLinkedIn'])->name('auth.linkedin');
+    // Route::get('/auth/linkedin/callback', [SocialController::class, 'handleLinkedInCallback']);
+    Route::get('/auth/redirect', function () {
+        return Socialite::driver('linkedin')->redirect();
+    });
+    
+    Route::get('/auth/callback', function () {
+        $user = Socialite::driver('linkedin')->user();
+    
+        // $user->token
+    });
+    
 
 });
