@@ -8,6 +8,12 @@ use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\SocialController;
 use Laravel\Socialite\Facades\Socialite;
 
+// CORS 추가
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Requested-With");
+// CORS 추가 끝
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -57,15 +63,17 @@ Route::middleware(['auth'])->group(function () {
     #Linkedin Login
     // Route::get('/auth/linkedin', [SocialController::class, 'redirectToLinkedIn'])->name('auth.linkedin');
     // Route::get('/auth/linkedin/callback', [SocialController::class, 'handleLinkedInCallback']);
-    Route::get('/auth/redirect', function () {
-        return Socialite::driver('linkedin')->redirect();
-    });
+    Route::get('/social/callback/{provider}', [
+        'as' => 'social.callback',
+        'uses' => 'App\Http\Controllers\Auth\SocialController@callback',
+    ]);
+    Route::get('/social/{provider}', [
+        'as' => 'social.login',
+        'uses' => 'App\Http\Controllers\Auth\SocialController@login',
+    ]);
+
     
-    Route::get('/auth/callback', function () {
-        $user = Socialite::driver('linkedin')->user();
-    
-        // $user->token
-    });
+
     
 
 });

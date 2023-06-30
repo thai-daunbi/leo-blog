@@ -81,12 +81,7 @@
                         onlogin="checkLoginState();">
                     </fb:login-button> -->
 
-                    <!-- linkedin -->
-                    <!-- <div class="form-group">
-                        <div class="col-md-8 col-md-offset-4">
-                            <a href="{{ route('auth.linkedin') }}" class="btn btn-secondary">Login with LinkedIn</a>
-                        </div>
-                    </div> -->
+                    
 
                     <div class="block mt-4">
                     <div class="col-12 text-center">
