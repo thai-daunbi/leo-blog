@@ -74,10 +74,10 @@ return [
             'model' => App\Models\Linkedin::class,
         ],
         
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'users' => [
+            'driver' => 'database',
+            'table' => 'users',
+        ],
     ],
 
     /*

@@ -62,6 +62,9 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+                                <a href="{{ url('/social/{provider}') }}" class="btn btn-primary">
+                                    <strong>Login With Linkedin</strong>
+                                </a>
                             </div>
                         </div>
                     </form>

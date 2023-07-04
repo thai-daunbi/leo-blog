@@ -9,6 +9,12 @@ use App\Models\SocialAccount;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
+use Validator;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+
+use Exception;
+
 class SocialController extends Controller
 {
     public function login(string $provider)
