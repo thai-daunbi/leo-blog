@@ -1,7 +1,10 @@
 <?php
+   
 namespace App\Console;
+    
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+    
 class Kernel extends ConsoleKernel
 {
     /**
@@ -10,8 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\DailyQuote::class,
+        Commands\DemoCron::class,
     ];
+     
     /**
      * Define the application's command schedule.
      *
@@ -20,9 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('quote:daily')
-        ->everyMinute();
+        $schedule->command('demo:cron')
+                 ->everyMinute();
     }
+     
     /**
      * Register the commands for the application.
      *
@@ -31,6 +36,7 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
+     
         require base_path('routes/console.php');
     }
 }
