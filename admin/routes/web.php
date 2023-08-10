@@ -50,3 +50,7 @@ Route::get('/deactivate-user/{id}', [App\Http\Controllers\ProfileController::cla
 Route::get('/activate-user/{id}', [App\Http\Controllers\ProfileController::class, 'activateUser'])->name('activate-user');
 
 
+Route::get('/schedule', [ScheduleController::class, 'index']);
+
+
+
