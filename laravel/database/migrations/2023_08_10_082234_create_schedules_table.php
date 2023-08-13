@@ -24,7 +24,7 @@ return new class extends Migration
 
     {
 
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('schedules', function (Blueprint $table) {
 
             $table->id();
 
