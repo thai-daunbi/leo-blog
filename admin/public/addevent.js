@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    var SITEURL = "{{ url('/') }}";
+    var SITEURL = window.location.origin;
+
   
     var calendar = $('#calendar').fullCalendar({
         editable: true,

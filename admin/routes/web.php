@@ -51,12 +51,10 @@ Route::get('/activate-user/{id}', [App\Http\Controllers\ProfileController::class
 
 
 Route::controller(App\Http\Controllers\ScheduleController::class)->group(function(){
-
     Route::get('fullcalender', 'index');
-
     Route::post('fullcalenderAjax', 'ajax');
-
 });
+
 
 Route::post('/add-event', 'EventController@addEvent')->name('addEvent');
 
