@@ -13,7 +13,7 @@
       slotMinTime: '08:00',
       slotMaxTime: '20:00',
       headerToolbar: {
-        left: 'prev,next today,',
+        left: 'prev,next today,addEventButton',
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
       },
@@ -23,7 +23,15 @@
       editable: true,
       selectable: true,
       nowIndicator: true,
-      dayMaxEvents: true, // allow "more" link when too many 
+      dayMaxEvents: true, 
+      customButtons: {
+        addEventButton: {
+            text: '일정 추가',
+            click: function () {
+                window.location.href = '/add-event';
+            }
+        }
+      }
       
     });
     calendar.render();

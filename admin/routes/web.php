@@ -56,7 +56,9 @@ Route::controller(App\Http\Controllers\ScheduleController::class)->group(functio
 });
 
 
-Route::post('/add-event', 'EventController@addEvent')->name('addEvent');
+Route::get('/add-event', function () {
+    return view('schedule/add-event');
+});
 
 
 
