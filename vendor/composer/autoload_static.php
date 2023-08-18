@@ -84,6 +84,7 @@ class ComposerStaticInit2b5bdc4a4950506408cb54f0c067294f
             'Psr\\Log\\' => 8,
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
+            'Psr\\Clock\\' => 10,
             'PhpOption\\' => 10,
         ),
         'M' => 
@@ -290,6 +291,10 @@ class ComposerStaticInit2b5bdc4a4950506408cb54f0c067294f
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Psr\\Clock\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/clock/src',
         ),
         'PhpOption\\' => 
         array (
