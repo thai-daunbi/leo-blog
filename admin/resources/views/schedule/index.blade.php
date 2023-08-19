@@ -26,7 +26,7 @@
                     dayMaxEvents: true,
                     events: function (fetchInfo, successCallback, failureCallback) {
                         const xhr = new XMLHttpRequest();
-                        xhr.open('GET', '/api/get-events');
+                        xhr.open('GET', '/api/get-events?start=' + encodeURIComponent(fetchInfo.startStr) + '&end=' + encodeURIComponent(fetchInfo.endStr));
                         xhr.setRequestHeader('Content-Type', 'application/json');
                         xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
                         xhr.onload = function () {
