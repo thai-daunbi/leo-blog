@@ -3,120 +3,66 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Schedule;
 use Illuminate\Http\JsonResponse;
-
-
+use Carbon\Carbon;
 
 class ScheduleController extends Controller
 
 {
-public function index(Request $request)
-
-{
-
-
-
-    if($request->ajax()) {
-
-
-    
-            $data = Schedule::whereDate('start', '>=', $request->start)
-
-                    ->whereDate('end',   '<=', $request->end)
-
-                    ->get(['id', 'title', 'start', 'end']);
-
-
-
-            return response()->json($data);
-
+    public function index()
+    {
+        $schedules = Schedule::all();
+        return view('schedule.index', ['schedules' => $schedules]);
     }
-
-
-
+    public function show()
+{
     return view('schedule.index');
-
 }
 
+    public function ajax(Request $request)
+    {
+        dd($request->all());
 
+        $schedule = new Schedule([
+            'title' => $request->title,
+            'start' => $request->start_date . ' ' . $request->start_time,
+            'end' => $request->end_date . ' ' . $request->end_time,
+        ]);
 
-/**
+        $schedule->save();
 
-    * Write code on Method
-
-    *
-
-    * @return response()
-
-    */
-
-public function ajax(Request $request): JsonResponse
-
-{
-
-
-
-    switch ($request->type) {
-
-        case 'add':
-
-            $Schedule = Schedule::create([
-
-                'title' => $request->title,
-
-                'start' => $request->start,
-
-                'end' => $request->end,
-
-            ]);
-
-
-
-            return response()->json($Schedule);
-
-            break;
-
-
-
-        case 'update':
-
-            $Schedule = Schedule::find($request->id)->update([
-
-                'title' => $request->title,
-
-                'start' => $request->start,
-
-                'end' => $request->end,
-
-            ]);
-
-
-
-            return response()->json($Schedule);
-
-            break;
-
-
-
-        case 'delete':
-
-            $Schedule = Schedule::find($request->id)->delete();
-
-
-
-            return response()->json($Schedule);
-
-            break;
-
-            
-
-        default:
-
-            # code...
-
-            break;
-
+        return response()->json(['success' => true]);
     }
 
-}
+    public function getEvents(Request $request): JsonResponse
+    {
+        $start = Carbon::parse($request->input('start'));
+        $end = Carbon::parse($request->input('end'));
+
+        $events = Schedule::whereBetween('start', [$start, $end])
+            ->orWhereBetween('end', [$start, $end])
+            ->get();
+
+        return response()->json($events);
+    }
+    public function saveEvent(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'start_time' => 'required',
+            'end_time' => 'required',
+        ]);
+
+        $schedule = new Schedule([
+            'title' => $request->title,
+            'start' => $request->start_date . ' ' . $request->start_time,
+            'end' => $request->end_date . ' ' . $request->end_time,
+        ]);
+
+        $schedule->save();
+
+        return response()->json(['success' => true]);
+    }
 
 }

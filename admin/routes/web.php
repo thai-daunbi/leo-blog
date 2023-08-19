@@ -50,17 +50,14 @@ Route::get('/deactivate-user/{id}', [App\Http\Controllers\ProfileController::cla
 Route::get('/activate-user/{id}', [App\Http\Controllers\ProfileController::class, 'activateUser'])->name('activate-user');
 
 
-Route::controller(App\Http\Controllers\ScheduleController::class)->group(function(){
-    Route::get('fullcalender', 'index');
-    Route::post('fullcalenderAjax', 'ajax');
-});
-
+Route::resource('/schedule', App\Http\Controllers\ScheduleController::class);
 
 Route::get('/add-event', function () {
     return view('schedule/add-event');
 });
 
+Route::post('/api/save-event', [App\Http\Controllers\ScheduleController::class, 'saveEvent']);
 
-
+Route::get('/api/get-events', [App\Http\Controllers\ScheduleController::class, 'getEvents']);
 
 
