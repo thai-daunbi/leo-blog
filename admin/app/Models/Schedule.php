@@ -9,6 +9,6 @@ class Schedule extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'start', 'end'
+        'title', 'start', 'end', 'checkbox1', 'checkbox2'
     ];
 }

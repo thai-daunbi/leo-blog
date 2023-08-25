@@ -60,4 +60,6 @@ Route::post('/api/save-event', [App\Http\Controllers\ScheduleController::class, 
 
 Route::get('/api/get-events', [App\Http\Controllers\ScheduleController::class, 'getEvents']);
 
+Route::post('/api/update-event-checkbox', [App\Http\Controllers\ScheduleController::class, 'updateCheckbox']);
+
 

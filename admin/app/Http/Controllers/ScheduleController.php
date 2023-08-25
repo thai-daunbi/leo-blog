@@ -64,5 +64,19 @@ class ScheduleController extends Controller
 
         return response()->json(['success' => true]);
     }
+    public function updateCheckbox(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required|exists:schedules,id',
+            'checkbox1' => 'required|boolean',
+            'checkbox2' => 'required|boolean',
+        ]);
 
+        $schedule = Schedule::findOrFail($request->input('id'));
+        $schedule->checkbox = $request->input('checkbox1');
+        $schedule->checkbox = $request->input('checkbox2');
+        $schedule->save();
+
+        return response()->json(['success' => true]);
+    }
 }

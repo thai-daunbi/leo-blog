@@ -44,6 +44,57 @@
                         };
                         xhr.send();
                     },
+                    eventDidMount: function (info) {
+                        const checkbox1 = document.createElement('input');
+                        checkbox1.type = 'checkbox';
+                        checkbox1.classList.add('event-checkbox');
+
+                        // Set the initial state of the checkboxes based on the event data.
+                        checkbox1.checked = info.event.extendedProps.checkbox1;
+
+                        const checkbox2 = document.createElement('input');
+                        checkbox2.type = 'checkbox';
+                        checkbox2.classList.add('event-checkbox');
+                        
+                        // Set the initial state of the checkboxes based on the event data.
+                        checkbox2.checked = info.event.extendedProps.checkbox2;
+
+                    // When a checkbox state changes, update the event data.
+                    [checkbox1, checkbox2].forEach((checkbox, index) => {
+                            const fieldName = index === 0 ? 'checkbox1' : 'checkbox2';
+
+                            checkbox.addEventListener('change', function () {
+                                fetch('/api/update-event-checkbox', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        // Make sure to add CSRF token for Laravel to handle this request.
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    },
+                                    body: JSON.stringify({
+                                        id: info.event.id,
+                                        [fieldName]: this.checked,
+                                    })
+                                }).then(function(response) {
+                                    if (!response.ok) throw new Error("Failed to update event");
+                                    return response.json();
+                                }).then(function(data) {
+                                    if (!data.success) throw new Error("Failed to update event");
+                                    
+                                // Optionally, you can do something here after successfully updating the event...
+                                }).catch(function(error) {
+                                console.error(error);
+                            });
+                        });
+                    });
+
+                    const container = document.createElement('div');
+                    container.appendChild(checkbox1);
+                    container.appendChild(checkbox2);
+                    container.classList.add('checkbox-container');
+
+                    info.el.appendChild(container);
+                    },
                     customButtons: {
                         addEventButton: {
                             text: '일정 추가',
@@ -54,6 +105,29 @@
                     },
                 });
                 calendar.render();
+                
+
+                function updateEventStatus(event, status) {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/api/update-event-status');
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+                    
+                    const data = JSON.stringify({
+                        event_id: event.id,
+                        status: status
+                    });
+                    
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            console.log('Event status updated successfully.');
+                        } else {
+                            console.error('Failed to update event status.');
+                        }
+                    };
+                    
+                    xhr.send(data);
+                }
             });
         </script>
         <style>
@@ -73,14 +147,20 @@
             }
 
             .fc-header-toolbar {
-                /*
-    the calendar will be butting up against the edges,
-    but let's scoot in the header's buttons
-    */
                 padding-top: 1em;
                 padding-left: 1em;
                 padding-right: 1em;
             }
+
+            .checkbox-container {
+                display: flex;
+                align-items: center;
+            }
+
+                .event-checkbox {
+                margin-right: 5px;
+            }
+
         </style>
     </head>
     <body>
