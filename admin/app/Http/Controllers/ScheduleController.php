@@ -87,27 +87,21 @@ class ScheduleController extends Controller
     }
 
     public function updateSchedule(Request $request, $id)
-    {
-        $this->validate($request, [
-            'checkbox1' => 'nullable|boolean',
-            'checkbox2' => 'nullable|boolean',
-        ]);
+{
+    // 체크박스 값이 1인 경우에 true, 그 외에는 false로 설정
+    $button1 = $request->has('checkbox1') ? 1 : 0;
+    $button2 = $request->has('checkbox2') ? 1 : 0;
 
-        $schedule = Schedule::findOrFail($id);
+    // Schedule 모델을 찾아서 수정
+    $schedule = Schedule::findOrFail($id);
+    $schedule->button1 = $button1;
+    $schedule->button2 = $button2;
+    $schedule->save();
 
-        if ($request->has('checkbox1')) {
-            $schedule->button1 = $request->input('checkbox1') ? 1 : 0;
-        }
+    // 리디렉션
+    return redirect('/schedule');
+}
 
-        if ($request->has('checkbox2')) {
-            $schedule->button2 = $request->input('checkbox2') ? 1 : 0;
-        }
-
-        $schedule->save();
-
-        return redirect('/schedule');
-        // return redirect()->route('schedule.index');
-    }
 
 }
 

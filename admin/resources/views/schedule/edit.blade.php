@@ -8,6 +8,7 @@
 
    <form action="{{ route('update-schedule', ['id' => $schedule->id]) }}" method="POST">
 
+
       @csrf
 
       <!-- Show Event Date and Time -->
