@@ -5,7 +5,7 @@
 docker-compose -f "docker-compose.yml" up -d --build
 ```
 ### file name : leo-blog
-### branches name: feature/3-schedule-page
+### branches name: feature/4-schedule add checkbox
 
 ## just blog : http://localhost:8090
 ## admin :http://localhost:8092
@@ -32,7 +32,16 @@ docker-compose -f "docker-compose.yml" up -d --build
 ![스크린샷 2023-08-23 015140](https://github.com/thai-daunbi/leo-blog/assets/126050099/0bc041f6-3913-4bbf-a24a-44806db7d868)
 
 6. 메인 스케줄 페이지<br/>
-![스크린샷 2023-08-23 015201](https://github.com/thai-daunbi/leo-blog/assets/126050099/c2f2408b-fbc9-407b-8838-5ccb8cf970e7)
+![스크린샷 2023-08-27 224629](https://github.com/thai-daunbi/leo-blog/assets/126050099/64f973d4-3495-4539-af50-607521ca23d2)
+
+7. 왼쪽 '+'버튼을 누르면 체크박스 업데이트 가능<br/>
+![스크린샷 2023-08-27 224645](https://github.com/thai-daunbi/leo-blog/assets/126050099/9c735cc8-3b2e-4aa2-9b72-7580dd7fed3e)
+
+8. 체크박스 업데이트 화면<br/>
+![스크린샷 2023-08-27 224657](https://github.com/thai-daunbi/leo-blog/assets/126050099/4ca7b951-ce47-4c56-bdb1-0430fffcf016)
+
+9. 테이블 확인 화면<br/>
+![스크린샷 2023-08-27 224741](https://github.com/thai-daunbi/leo-blog/assets/126050099/13f152d0-433d-43db-9ccd-b16e90aba0c7)
 
 
 
