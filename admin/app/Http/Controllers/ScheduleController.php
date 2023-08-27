@@ -14,9 +14,9 @@ class ScheduleController extends Controller
         return view('schedule.index', ['schedules' => $schedules]);
     }
     public function show()
-{
-    return view('schedule.index');
-}
+    {
+        return view('schedule.index');
+    }
 
     public function ajax(Request $request)
     {
@@ -42,8 +42,22 @@ class ScheduleController extends Controller
             ->orWhereBetween('end', [$start, $end])
             ->get();
 
-        return response()->json($events);
+        $result_events = [];
+
+        foreach ($events as $event) {
+            $result_events[] = array(
+                'id' => $event->id,
+                'title' => $event->title,
+                'start' => $event->start,
+                'end' => $event->end,
+                'checkbox1' => $event->checkbox1,
+                'checkbox2' => $event->checkbox2
+            );
+        }
+
+        return response()->json($result_events);
     }
+
     public function saveEvent(Request $request)
     {
         $this->validate($request, [
@@ -64,19 +78,36 @@ class ScheduleController extends Controller
 
         return response()->json(['success' => true]);
     }
-    public function updateCheckbox(Request $request)
+
+    public function editSchedule($id)
+    {
+       // fetch schedule details for given id and pass it to view
+       $schedule = Schedule::findOrFail($id);
+       return view('schedule.edit',['schedule'=>$schedule]);
+    }
+
+    public function updateSchedule(Request $request, $id)
     {
         $this->validate($request, [
-            'id' => 'required|exists:schedules,id',
-            'checkbox1' => 'required|boolean',
-            'checkbox2' => 'required|boolean',
+            'checkbox1' => 'nullable|boolean',
+            'checkbox2' => 'nullable|boolean',
         ]);
 
-        $schedule = Schedule::findOrFail($request->input('id'));
-        $schedule->checkbox = $request->input('checkbox1');
-        $schedule->checkbox = $request->input('checkbox2');
+        $schedule = Schedule::findOrFail($id);
+
+        if ($request->has('checkbox1')) {
+            $schedule->button1 = $request->input('checkbox1') ? 1 : 0;
+        }
+
+        if ($request->has('checkbox2')) {
+            $schedule->button2 = $request->input('checkbox2') ? 1 : 0;
+        }
+
         $schedule->save();
 
-        return response()->json(['success' => true]);
+        return redirect('/schedule');
+        // return redirect()->route('schedule.index');
     }
+
 }
+
