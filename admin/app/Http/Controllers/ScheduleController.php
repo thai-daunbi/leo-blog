@@ -50,8 +50,8 @@ class ScheduleController extends Controller
                 'title' => $event->title,
                 'start' => $event->start,
                 'end' => $event->end,
-                'checkbox1' => $event->checkbox1,
-                'checkbox2' => $event->checkbox2
+                'checkbox1' => $event->button1,
+                'checkbox2' => $event->button2
             );
         }
 

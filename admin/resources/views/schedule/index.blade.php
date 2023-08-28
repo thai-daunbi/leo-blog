@@ -36,7 +36,9 @@
                                     title: event.title,
                                     start: new Date(event.start),
                                     end: new Date(event.end),
-                                    id: event.id // Add this line
+                                    id: event.id, 
+                                    button1: event.button1, 
+                                    button2: event.button2 
                                 }));
                                 successCallback(parsedEvents);
                             } else {
@@ -47,12 +49,31 @@
                     },
                     eventDidMount: function (info) {
                         const button = document.createElement('button');
-                        button.innerText = 'Edit';
+                        button.innerText = '+';
                         button.addEventListener('click', function () {
-                            window.location.href = '/edit-schedule/' + info.event.id; // Edit this line
+                            window.location.href = '/edit-schedule/' + info.event.id; 
                         });
 
-                        info.el.appendChild(button);
+                        const button1Label = document.createElement('span');
+                        button1Label.innerText = info.event.extendedProps.button1  === 1 ? 'ゆ' : '';
+
+                        const button2Label = document.createElement('span');
+                        button2Label.innerText = info.event.extendedProps.button2 === 1 ? 'う' : '';
+
+                        const containerDiv = document.createElement('div');
+                        
+                        containerDiv.appendChild(button);
+                        
+                        if (info.event.extendedProps.button1 === 1) {
+                            containerDiv.appendChild(button1Label);
+                            containerDiv.appendChild(document.createTextNode(" "));
+                        }
+                        
+                        if (info.event.extendedProps.button2 === 1) {
+                            containerDiv.appendChild(button2Label);
+                        }
+
+                        info.el.appendChild(containerDiv);
                     },
                     customButtons: {
                         addEventButton: {
@@ -61,6 +82,12 @@
                                 window.location.href = '/add-event';
                             },
                         },
+                        listButton: { // List 버튼
+                            text: 'List',
+                            click: function () {
+                                fetchEvents(); 
+                            }
+                        }
                     },
                 });
                 calendar.render();
@@ -86,6 +113,33 @@
                     };
                     
                     xhr.send(data);
+                }
+
+                function fetchEvents() { 
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('GET', '/api/get-events');
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+                    
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            const events = JSON.parse(xhr.responseText);
+                            const parsedEvents = events.map((event) => ({
+                                title: event.title,
+                                start: new Date(event.start),
+                                end: new Date(event.end),
+                                id: event.id,
+                                button1: event.button1,
+                                button2: event.button2 // Add this line for checkbox values
+                            }));
+                            calendar.removeAllEvents(); // Remove existing events
+                            calendar.addEventSource(parsedEvents); // Add parsedEvents
+                        } else {
+                            console.error('Failed to fetch events.');
+                        }
+                    };
+                    
+                    xhr.send();
                 }
             });
         </script>

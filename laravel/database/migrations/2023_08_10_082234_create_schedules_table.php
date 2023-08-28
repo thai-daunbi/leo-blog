@@ -13,6 +13,8 @@ class CreateSchedulesTable extends Migration
             $table->string('title');
             $table->dateTime('start');
             $table->dateTime('end');
+            $table->boolean('button1')->default(false);
+            $table->boolean('button2')->default(false);
             $table->timestamps();
         });
     }
