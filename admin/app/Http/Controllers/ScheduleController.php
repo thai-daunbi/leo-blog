@@ -50,8 +50,8 @@ class ScheduleController extends Controller
                 'title' => $event->title,
                 'start' => $event->start,
                 'end' => $event->end,
-                'checkbox1' => $event->button1,
-                'checkbox2' => $event->button2
+                'button1' => $event->button1,
+                'button2' => $event->button2
             );
         }
 
@@ -89,8 +89,8 @@ class ScheduleController extends Controller
     public function updateSchedule(Request $request, $id)
 {
     // 체크박스 값이 1인 경우에 true, 그 외에는 false로 설정
-    $button1 = $request->has('checkbox1') ? 1 : 0;
-    $button2 = $request->has('checkbox2') ? 1 : 0;
+    $button1 = $request->has('button1') ? 1 : 0;
+    $button2 = $request->has('button2') ? 1 : 0;
 
     // Schedule 모델을 찾아서 수정
     $schedule = Schedule::findOrFail($id);
