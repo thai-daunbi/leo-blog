@@ -28,20 +28,20 @@ docker-compose -f "docker-compose.yml" up -d --build
 4. 메인화면<br/>
 ![스크린샷 2023-08-23 015038](https://github.com/thai-daunbi/leo-blog/assets/126050099/f62a3d28-252e-4a67-850c-efc7faadbfe3)
 
-5. 사이드바에 추가를 못했기 때문에 http://localhost:8092/schedule로<br/>
-![스크린샷 2023-08-23 015140](https://github.com/thai-daunbi/leo-blog/assets/126050099/0bc041f6-3913-4bbf-a24a-44806db7d868)
+5. 메인 스케줄 페이지<br/>
+![스크린샷 2023-09-02 014740](https://github.com/thai-daunbi/leo-blog/assets/126050099/0586c5cd-b286-4cf6-8a06-0c280e92ab64)
 
-6. 메인 스케줄 페이지<br/>
-![스크린샷 2023-08-27 224629](https://github.com/thai-daunbi/leo-blog/assets/126050099/64f973d4-3495-4539-af50-607521ca23d2)
+6. 왼쪽 '+'버튼을 누르면 체크박스 업데이트 가능<br/>
+![스크린샷 2023-09-02 014746](https://github.com/thai-daunbi/leo-blog/assets/126050099/805ec674-0a9d-4036-8fc3-76db46b47cab)
 
-7. 왼쪽 '+'버튼을 누르면 체크박스 업데이트 가능<br/>
-![스크린샷 2023-08-27 224645](https://github.com/thai-daunbi/leo-blog/assets/126050099/9c735cc8-3b2e-4aa2-9b72-7580dd7fed3e)
+7. 체크박스 업데이트 화면<br/>
+![스크린샷 2023-09-02 014756](https://github.com/thai-daunbi/leo-blog/assets/126050099/6611cb9d-3761-4cb2-a473-111dbd987a46)
 
-8. 체크박스 업데이트 화면<br/>
-![스크린샷 2023-08-27 224657](https://github.com/thai-daunbi/leo-blog/assets/126050099/4ca7b951-ce47-4c56-bdb1-0430fffcf016)
+8. 테이블 확인 화면<br/>
+![스크린샷 2023-08-27 224741](https://github.com/thai-daunbi/leo-blog/assets/126050099/64fe7580-c741-40c0-b47e-0678d40bf03e)
 
-9. 테이블 확인 화면<br/>
-![스크린샷 2023-08-27 224741](https://github.com/thai-daunbi/leo-blog/assets/126050099/13f152d0-433d-43db-9ccd-b16e90aba0c7)
+9. 스케줄 화면
+![스크린샷 2023-09-01 211936](https://github.com/thai-daunbi/leo-blog/assets/126050099/e2708e49-5ea8-416b-adb3-b5479e03d3a1)
 
 
 
