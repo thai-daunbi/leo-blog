@@ -16,11 +16,11 @@
       <p>Time: {{ date("H:i:s", strtotime($schedule->start)) }}</p>
 
       <!-- Checkbox Options -->
-      <input type="checkbox" id="checkbox1" name="checkbox1" value="1" {{ $schedule->checkbox1 ? 'checked' : '' }}>
-      <label for="checkbox1">ゆ</label><br>
+      <input type="checkbox" id="button1" name="button1" value="1" {{ $schedule->button1 ? 'checked' : '' }}>
+      <label for="button1">ゆ</label><br>
       
-      <input type="checkbox" id="checkbox2" name="checkbox2" value="1" {{ $schedule->checkbox2 ? 'checked' : '' }}>
-      <label for="checkbox2">う</label><br>
+      <input type="checkbox" id="button2" name="button2" value="1" {{ $schedule->button2 ? 'checked' : '' }}>
+      <label for="button2">う</label><br>
 
        <!-- Submit Button -->
        <button type='submit'>Update Schedule</button>

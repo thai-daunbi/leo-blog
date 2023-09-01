@@ -55,23 +55,23 @@
                         });
 
                         const button1Label = document.createElement('span');
-                        button1Label.innerText = info.event.extendedProps.button1 === 0 ? 'ゆうき' : '';
+                        button1Label.innerText = info.event.extendedProps.button1 === 1 ? 'ゆうき' : '';
 
                         const button2Label = document.createElement('span');
-                        button2Label.innerText = info.event.extendedProps.button2 === 0 ? 'うみ' : '';
+                        button2Label.innerText = info.event.extendedProps.button2 === 1 ? 'うみ' : '';
 
                         const containerDiv = document.createElement('div');
 
                         containerDiv.appendChild(button);
 
-                        if (info.event.extendedProps.button1 === 0) {
+                        if (info.event.extendedProps.button1 === 1) {
                         const button1Container = document.createElement('div');
                         button1Container.appendChild(button1Label);
                         containerDiv.appendChild(button1Container);
                         containerDiv.appendChild(document.createTextNode(" "));
                         }
 
-                        if (info.event.extendedProps.button2 === 0) {
+                        if (info.event.extendedProps.button2 === 1) {
                             const button2Container = document.createElement('div');
                             button2Container.appendChild(button2Label);
                             containerDiv.appendChild(button2Container);
