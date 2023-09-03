@@ -80,12 +80,12 @@
                     },
                     customButtons: {
                         addEventButton: {
-                            text: '일정 추가',
+                            text: 'Add schedule',
                             click: function () {
                                 window.location.href = '/add-event';
                             },
                         },
-                        listButton: { // List 버튼
+                        listButton: {
                             text: 'List',
                             click: function () {
                                 fetchEvents(); 

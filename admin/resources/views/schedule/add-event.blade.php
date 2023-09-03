@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>일정 추가</title>
+    <title>Add schedule</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function submitForm(event) {
@@ -29,32 +29,32 @@
                     'end_time': endTime,
                 },
                 success: function (data) {
-                    alert('일정이 추가되었습니다!');
+                    alert('Schedule added!');
                     window.location.href = '/schedule';
                 },
                 error: function (data) {
-                    alert('일정 추가에 실패했습니다!');
+                    alert('Failed to add event!');
                 }
             });
         }
     </script>
 </head>
 <body>
-    <h1>일정 추가</h1>
+    <h1>Add schedule</h1>
     <form id="add-event-form" onsubmit="submitForm(event)">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-        <label for="title">일정 타이틀:</label>
+        <label for="title">Title:</label>
         <input type="text" id="title" name="title" required><br><br>
-        <label for="start-date">시작 날짜:</label>
+        <label for="start-date">Start Date:</label>
         <input type="date" id="start-date" name="start-date" required><br><br>
-        <label for="end-date">끝나는 날짜:</label>
+        <label for="end-date">End date:</label>
         <input type="date" id="end-date" name="end-date" required><br><br>
-        <label for="start-time">시작 시간:</label>
+        <label for="start-time">Start time:</label>
         <input type="time" id="start-time" name="start-time" required><br><br>
-        <label for="end-time">끝나는 시간:</label>
+        <label for="end-time">End time:</label>
         <input type="time" id="end-time" name="end-time" required><br><br>
-        <input type="submit" value="일정 추가">
+        <input type="submit" value="Add schedule">
     </form>
 </body>
 </html>
