@@ -52,6 +52,10 @@
                 }
             });
         }
+        function cancelForm() {
+            event.preventDefault();
+            window.location.href='/schedule';
+        }
         document.addEventListener('DOMContentLoaded', function() {
           var todayDate = new Date().toISOString().slice(0, 10);
           $('#start-date').val(todayDate);
@@ -104,7 +108,8 @@
         <label for="end-time">End time:</label>
         <input type="time" id="end-time" name="end-time" required><br><br>
         <input type="submit" value="Add schedule">
-    </form>
+        <button onclick="cancelForm(event)">Cancel</button>
+        </form>
     <script src='https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js'></script> 
 
 </body>
