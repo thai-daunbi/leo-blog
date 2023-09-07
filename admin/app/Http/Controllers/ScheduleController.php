@@ -85,23 +85,61 @@ class ScheduleController extends Controller
        $schedule = Schedule::findOrFail($id);
        return view('schedule.edit',['schedule'=>$schedule]);
     }
+    public function editSchedule2($id)
+    {
+       // fetch schedule details for given id and pass it to view
+       $schedule = Schedule::findOrFail($id);
+       return view('schedule.edit-schedule',['schedule'=>$schedule]);
+    }
+
 
     public function updateSchedule(Request $request, $id)
-{
-    // 체크박스 값이 1인 경우에 true, 그 외에는 false로 설정
-    $button1 = $request->has('button1') ? 1 : 0;
-    $button2 = $request->has('button2') ? 1 : 0;
+    {
+        // 체크박스 값이 1인 경우에 true, 그 외에는 false로 설정
+        $button1 = $request->has('button1') ? 1 : 0;
+        $button2 = $request->has('button2') ? 1 : 0;
 
-    // Schedule 모델을 찾아서 수정
-    $schedule = Schedule::findOrFail($id);
-    $schedule->button1 = $button1;
-    $schedule->button2 = $button2;
-    $schedule->save();
+        // Schedule 모델을 찾아서 수정
+        $schedule = Schedule::findOrFail($id);
+        $schedule->button1 = $button1;
+        $schedule->button2 = $button2;
+        $schedule->save();
 
-    // 리디렉션
-    return redirect('/schedule');
-}
+        // 리디렉션
+        return redirect('/schedule');
+    }
+    public function updateSchedule2(Request $request, $id)
+    {
+        // 체크박스 값이 1인 경우에 true, 그 외에는 false로 설정
+        $button1 = $request->has('button1') ? 1 : 0;
+        $button2 = $request->has('button2') ? 1 : 0;
 
+        // Schedule 모델을 찾아서 수정
+        $schedule = Schedule::findOrFail($id);
+        $schedule->start = $request->start_date . ' ' . $request->start_time;
+        $schedule->end = $request->end_date . ' ' . $request->end_time;
+        $schedule->button1 = $button1;
+        $schedule->button2 = $button2;
+        $schedule->save();
+
+        // 리디렉션
+        return redirect('/schedule');
+    }
+    public function deleteSchedule($id)
+    {
+        // Find the schedule and delete it
+        $schedule = Schedule::findOrFail($id);
+        $schedule->delete();
+
+        // Redirect back to the schedule page
+        return redirect('/schedule');
+    }
+
+    public function destroy($id)
+    {
+        Schedule::destroy($id);
+        return redirect('/schedule');
+    }
 
 }
 

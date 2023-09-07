@@ -63,3 +63,9 @@ Route::get('/api/get-events', [App\Http\Controllers\ScheduleController::class, '
 Route::post('/save-event', [App\Http\Controllers\ScheduleController::class, 'saveEvent']);
 Route::get('/edit-schedule/{id}', [App\Http\Controllers\ScheduleController::class, 'editSchedule'])->name('edit-schedule');
 Route::post('/update-schedule/{id}', [App\Http\Controllers\ScheduleController::class, 'updateSchedule'])->name('update-schedule');
+Route::get('/edit-schedule2/{id}', [App\Http\Controllers\ScheduleController::class, 'editSchedule2'])->name('edit-schedule2');
+
+Route::put('/schedule/update/{id}', [App\Http\Controllers\ScheduleController::class, 'updateSchedule'])->name('update-schedule');
+Route::delete('/schedule/{id}', [App\Http\Controllers\ScheduleController::class, 'deleteSchedule'])->name('delete-schedule');
+
+

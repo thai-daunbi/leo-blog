@@ -57,37 +57,54 @@
             window.location.href='/schedule';
         }
         document.addEventListener('DOMContentLoaded', function() {
-          var todayDate = new Date().toISOString().slice(0, 10);
-          $('#start-date').val(todayDate);
-          $('#end-date').val(todayDate);
-          $('#start-time').val('09:00 AM');
+            var todayDate = new Date().toISOString().slice(0, 10);
+            $('#start-date').val(todayDate);
+            $('#end-date').val(todayDate);
+            $('#start-time').val('09:00 AM');
+            $('#end-time').val('10:00 AM');
           
-          flatpickr("#start-date", {
-              dateFormat: "F j, Y",
-              locale: "en",
-              onChange: function(selectedDates, dateStr, instance) { 
-                  if ($('#end-date').val() === '') { 
-                      instance.setDate(selectedDates[0], false); 
-                  } 
-              }
-          });
-          
-          flatpickr("#end-date", { 
-              dateFormat: "F j, Y",
-              locale: "en"
-          });
-          flatpickr("#start-time", { 
-			  enableTime: true,
-			  noCalendar:true,
-			  dateFormat:"h:i K",
-			  defaultDate:"09:00 AM"
-		  });
-          flatpickr("#end-time", { 
-		  	  enableTime:true,
-		  	  noCalendar:true,
-		  	  dateFormat:"h:i K",
-		  	  defaultDate:"+1 hour"
-		  });
+            flatpickr("#start-date", {
+                dateFormat: "Y-m-d", // 날짜 형식 변경
+                defaultDate: todayDate, // 시작 날짜 기본값을 오늘로 설정
+                locale: "en",
+                onChange: function(selectedDates, dateStr, instance) { 
+                    // 시작 날짜가 변경될 때 끝나는 날짜에도 값을 넣어줌
+                    $('#end-date').val(dateStr);
+                }
+            });
+                
+            flatpickr("#end-date", { 
+                dateFormat: "Y-m-d",
+                defaultDate: todayDate, 
+                locale: "en"
+            });
+
+            flatpickr("#start-time", { 
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "h:i K",
+                defaultDate: "09:00 AM",
+                onChange: function(selectedTime) {
+                    updateEndTime($('#start-date').val(), selectedTime[0]);
+                }
+            });
+
+            flatpickr("#end-time", { 
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "h:i K",
+                defaultDate: "10:00 AM"
+            });
+        
+        // end date와 end time을 업데이트하는 함수
+        function updateEndTime(startDate, startTime) {
+            startDate = new Date(startDate);
+            startTime = startTime || new Date('1970-01-01T09:00:00');
+            var endTime = new Date(startDate.getTime() + 60 * 60 * 1000); // 1시간 뒤의 시간을 계산
+            endTime.setHours(startTime.getHours() + 1, startTime.getMinutes()); // 시작 시간에서 1시간을 더해 end time을 설정
+            $('#end-date').val(endTime.toISOString().slice(0, 10));
+            $('#end-time').val(endTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
+        }
           
         });
     </script>
@@ -95,21 +112,21 @@
 <body>
     <h1>Add schedule</h1>
     <form id="add-event-form" onsubmit="submitForm(event)">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
+    <form id="add-event-form" onsubmit="submitForm(event)">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <label for="title">Title:</label>
         <input type="text" id="title" name="title" required><br><br>
         <label for="start-date">Start Date:</label>
         <input type="text" id="start-date" name="start-date"><br><br>
         <label for="end-date">End date:</label>
-        <input type ="text"id ="end-date"name ="end -date"value="" readonly><br ><br >
+        <input type="text" id="end-date" name="end-date" readonly><br><br>
         <label for="start-time">Start time:</label>
         <input type="time" id="start-time" name="start-time" required><br><br>
         <label for="end-time">End time:</label>
         <input type="time" id="end-time" name="end-time" required><br><br>
         <input type="submit" value="Add schedule">
         <button onclick="cancelForm(event)">Cancel</button>
-        </form>
+    </form>
     <script src='https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js'></script> 
 
 </body>

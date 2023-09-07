@@ -54,6 +54,12 @@
                             window.location.href = '/edit-schedule/' + info.event.id; 
                         });
 
+                        const button1 = document.createElement('button');
+                        button1.innerText = '-';
+                        button1.addEventListener('click', function () {
+                            window.location.href = '/edit-schedule2/' + info.event.id; 
+                        });
+
                         const button1Label = document.createElement('span');
                         button1Label.innerText = info.event.extendedProps.button1 === 1 ? 'ゆうき' : '';
 
@@ -63,6 +69,7 @@
                         const containerDiv = document.createElement('div');
 
                         containerDiv.appendChild(button);
+                        containerDiv.appendChild(button1);
 
                         if (info.event.extendedProps.button1 === 1) {
                         const button1Container = document.createElement('div');
