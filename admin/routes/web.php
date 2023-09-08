@@ -68,4 +68,6 @@ Route::get('/edit-schedule2/{id}', [App\Http\Controllers\ScheduleController::cla
 Route::put('/schedule/update/{id}', [App\Http\Controllers\ScheduleController::class, 'updateSchedule'])->name('update-schedule');
 Route::delete('/schedule/{id}', [App\Http\Controllers\ScheduleController::class, 'deleteSchedule'])->name('delete-schedule');
 
+Route::put('/schedule/update2/{id}', [App\Http\Controllers\ScheduleController::class, 'updateSchedule'])->name('update-schedule2');
+
 

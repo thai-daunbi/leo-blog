@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Schedule;
+use App\Models\Student;
 use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
 
@@ -94,37 +95,63 @@ class ScheduleController extends Controller
 
 
     public function updateSchedule(Request $request, $id)
-    {
-        // 체크박스 값이 1인 경우에 true, 그 외에는 false로 설정
-        $button1 = $request->has('button1') ? 1 : 0;
-        $button2 = $request->has('button2') ? 1 : 0;
+{
+    // 체크박스 값이 1인 경우에 true, 그 외에는 false로 설정
+    $button1 = $request->has('button1') ? 1 : 0;
+    $button2 = $request->has('button2') ? 1 : 0;
 
-        // Schedule 모델을 찾아서 수정
-        $schedule = Schedule::findOrFail($id);
-        $schedule->button1 = $button1;
-        $schedule->button2 = $button2;
-        $schedule->save();
+    // Schedule 모델을 찾아서 수정
+    $schedule = Schedule::findOrFail($id);
+    $schedule->button1 = $button1;
+    $schedule->button2 = $button2;
+    $schedule->save();
 
-        // 리디렉션
-        return redirect('/schedule');
+    $students = $request->input('students', []); // 학생 정보 배열 가져오기
+
+    // 스케줄과 연결된 모든 학생 정보를 삭제하고 다시 추가
+    $schedule->students()->delete(); // 이 스케줄과 연결된 모든 학생 정보 삭제
+
+    foreach ($students as $studentName) {
+        $student = new Student([
+            'name' => $studentName,
+        ]);
+        $schedule->students()->save($student); // 학생 정보를 스케줄에 연결하여 저장
     }
-    public function updateSchedule2(Request $request, $id)
-    {
-        // 체크박스 값이 1인 경우에 true, 그 외에는 false로 설정
-        $button1 = $request->has('button1') ? 1 : 0;
-        $button2 = $request->has('button2') ? 1 : 0;
 
-        // Schedule 모델을 찾아서 수정
-        $schedule = Schedule::findOrFail($id);
-        $schedule->start = $request->start_date . ' ' . $request->start_time;
-        $schedule->end = $request->end_date . ' ' . $request->end_time;
-        $schedule->button1 = $button1;
-        $schedule->button2 = $button2;
-        $schedule->save();
+    // 리디렉션
+    return redirect('/schedule');
+}
 
-        // 리디렉션
-        return redirect('/schedule');
+public function updateSchedule2(Request $request, $id)
+{
+    // 체크박스 값이 1인 경우에 true, 그 외에는 false로 설정
+    $button1 = $request->has('button1') ? 1 : 0;
+    $button2 = $request->has('button2') ? 1 : 0;
+
+    // Schedule 모델을 찾아서 수정
+    $schedule = Schedule::findOrFail($id);
+    $schedule->start = $request->start_date . ' ' . $request->start_time;
+    $schedule->end = $request->end_date . ' ' . $request->end_time;
+    $schedule->button1 = $button1;
+    $schedule->button2 = $button2;
+    $schedule->save();
+
+    $students = $request->input('students', []); // 학생 정보 배열 가져오기
+
+    // 스케줄과 연결된 모든 학생 정보를 삭제하고 다시 추가
+    $schedule->students()->delete(); // 이 스케줄과 연결된 모든 학생 정보 삭제
+
+    foreach ($students as $studentName) {
+        $student = new Student([
+            'name' => $studentName,
+        ]);
+        $schedule->students()->save($student); // 학생 정보를 스케줄에 연결하여 저장
     }
+
+    // 리디렉션
+    return redirect('/schedule');
+}
+
     public function deleteSchedule($id)
     {
         // Find the schedule and delete it

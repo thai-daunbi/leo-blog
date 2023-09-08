@@ -15,6 +15,9 @@ class CreateSchedulesTable extends Migration
             $table->dateTime('end');
             $table->boolean('button1')->default(false);
             $table->boolean('button2')->default(false);
+            $table->boolean('button3')->default(false);
+            $table->boolean('button4')->default(false);
+            $table->boolean('button5')->default(false);
             $table->timestamps();
         });
     }

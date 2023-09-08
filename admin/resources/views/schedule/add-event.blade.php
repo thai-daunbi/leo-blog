@@ -15,20 +15,22 @@
             var _token = form.querySelector("input[name='_token']").value;
             var title = form.querySelector("input[name='title']").value;
             var startDate = form.querySelector("input[name='start-date']").value;
-			var endDateInput = form.querySelector("input[name='end-date']");
-			var startTime = "09:00 AM";
-			
-			// Calculate end time based on start time + 1 hour
-			var startHour = parseInt(startTime.split(':')[0]);
-			var endHour = (startHour + 1) % 12; // Ensure it stays within a 12-hour range
-			if (endHour === 0) {
-				endHour = 12;
-			}
-			
-			var endTimeMeridiem = startTime.split(' ')[1];
-			var endTime = ('00' + endHour).slice(-2) + ':00 ' + endTimeMeridiem;
+            var endDateInput = form.querySelector("input[name='end-date']");
+            var startTime = "09:00 AM";
+
+            // Calculate end time based on start time + 1 hour
+            var startHour = parseInt(startTime.split(':')[0]);
+            var endHour = (startHour + 1) % 12; // Ensure it stays within a 12-hour range
+            if (endHour === 0) {
+                endHour = 12;
+            }
+
+            var endTimeMeridiem = startTime.split(' ')[1];
+            var endTime = ('00' + endHour).slice(-2) + ':00 ' + endTimeMeridiem;
+
+            // 여기서 endDate를 endDateInput.value로 수정
             if (startDate !== "") {
-                endDateInput._flatpickr.setDate(startDate); // start date 값을 end date에 할당
+                endDateInput.value = startDate; // start date 값을 end date에 할당
                 endDateInput.dispatchEvent(new Event('change')); // change 이벤트 트리거
             }
 
@@ -39,7 +41,7 @@
                     '_token': '{{ csrf_token() }}',
                     'title': title,
                     'start_date': startDate,
-                    'end_date': endDate,
+                    'end_date': endDateInput.value, // endDateInput.value로 수정
                     'start_time': startTime,
                     'end_time': endTime,
                 },
@@ -52,6 +54,7 @@
                 }
             });
         }
+
         function cancelForm() {
             event.preventDefault();
             window.location.href='/schedule';
@@ -62,13 +65,14 @@
             $('#end-date').val(todayDate);
             $('#start-time').val('09:00 AM');
             $('#end-time').val('10:00 AM');
+
+            var endDate = todayDate;
           
             flatpickr("#start-date", {
-                dateFormat: "Y-m-d", // 날짜 형식 변경
-                defaultDate: todayDate, // 시작 날짜 기본값을 오늘로 설정
+                dateFormat: "Y-m-d", 
+                defaultDate: todayDate, 
                 locale: "en",
                 onChange: function(selectedDates, dateStr, instance) { 
-                    // 시작 날짜가 변경될 때 끝나는 날짜에도 값을 넣어줌
                     $('#end-date').val(dateStr);
                 }
             });
@@ -96,12 +100,12 @@
                 defaultDate: "10:00 AM"
             });
         
-        // end date와 end time을 업데이트하는 함수
+        
         function updateEndTime(startDate, startTime) {
             startDate = new Date(startDate);
             startTime = startTime || new Date('1970-01-01T09:00:00');
-            var endTime = new Date(startDate.getTime() + 60 * 60 * 1000); // 1시간 뒤의 시간을 계산
-            endTime.setHours(startTime.getHours() + 1, startTime.getMinutes()); // 시작 시간에서 1시간을 더해 end time을 설정
+            var endTime = new Date(startDate.getTime() + 60 * 60 * 1000); 
+            endTime.setHours(startTime.getHours() + 1, startTime.getMinutes());
             $('#end-date').val(endTime.toISOString().slice(0, 10));
             $('#end-time').val(endTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
         }
@@ -111,7 +115,6 @@
 </head>
 <body>
     <h1>Add schedule</h1>
-    <form id="add-event-form" onsubmit="submitForm(event)">
     <form id="add-event-form" onsubmit="submitForm(event)">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <label for="title">Title:</label>
