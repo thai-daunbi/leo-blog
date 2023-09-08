@@ -15,8 +15,9 @@
 
 <body>
 
-<form method="POST" action="/schedule/update/{{ $schedule->id }}" id="edit-event-form">
+<form method="PUT" action="/schedule/update/{{ $schedule->id }}" id="edit-event-form">
     @csrf
+    @method('PUT')
 
     <!-- Start Date -->
     <label for="start-date">Start Date:</label>
@@ -47,42 +48,60 @@
   </form>
 
 <script>
-$(document).ready(function() {
-	
-	flatpickr('.date', {
-	  enableTime: false,
-	  dateFormat: "Y-m-d",
-});
-	
-	flatpickr('.time', {
-	  enableTime: true,
-	  noCalendar: true,
-	  dateFormat: "H:i",
-});
-	
-	$("#edit-event-form").submit(function(e) {
-        e.preventDefault();
-		
-		$.ajax({
-            type: 'PUT', 
-            url: '/schedule/update/{{ $schedule->id }}',
-            data: {
-                '_token': '{{ csrf_token() }}',
-                'start_date': $('#start-date').val(),
-                'end_date': $('#end-date').val(),
-                'start_time': $('#start-time').val(),
-                'end_time': $('#end-time').val()
-            },
-            success: function(response) {
-                alert('Schedule Updated Successfully!');
-                window.location.href = '/schedule';
-            },
-            error: function(response) {
-                alert('Failed to Update Schedule');
-            }
-        });
+document.addEventListener('DOMContentLoaded', function() {
+    var todayDate = new Date().toISOString().slice(0, 10);
+    $('#start-date').val(todayDate);
+    $('#end-date').val(todayDate);
+    $('#start-time').val('09:00 AM');
+    $('#end-time').val('10:00 AM');
+
+    var endDate = todayDate;
+
+    flatpickr("#start-date", {
+        dateFormat: "Y-m-d",
+        defaultDate: todayDate,
+        locale: "en",
+        onChange: function(selectedDates, dateStr, instance) {
+            $('#end-date').val(dateStr);
+            updateEndTime(dateStr, $('#start-time').val());
+        }
     });
-	
+
+    flatpickr("#end-date", {
+        dateFormat: "Y-m-d",
+        defaultDate: todayDate,
+        locale: "en"
+    });
+
+    flatpickr("#start-time", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "h:i K",
+        defaultDate: "09:00 AM",
+        onChange: function(selectedTime) {
+            updateEndTime($('#start-date').val(), selectedTime[0]);
+        }
+    });
+
+    flatpickr("#end-time", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "h:i K",
+        defaultDate: "10:00 AM"
+    });
+
+    function updateEndTime(startDate, startTime) {
+        startDate = new Date(startDate);
+        startTime = startTime || new Date('2023-01-01T09:00:00');
+        var endTime = new Date(startDate.getTime() + 60 * 60 * 1000);
+        endTime.setHours(startTime.getHours() + 1, startTime.getMinutes());
+        $('#end-date').val(endTime.toISOString().slice(0, 10));
+        $('#end-time').val(endTime.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        }));
+    }
 });
 </script>
 </body>

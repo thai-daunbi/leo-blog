@@ -56,7 +56,7 @@ Route::get('/add-event', function () {
     return view('schedule/add-event');
 });
 
-Route::post('/api/save-event', [App\Http\Controllers\ScheduleController::class, 'saveEvent']);
+Route::put('/api/save-event', [App\Http\Controllers\ScheduleController::class, 'saveEvent']);
 
 Route::get('/api/get-events', [App\Http\Controllers\ScheduleController::class, 'getEvents']);
 

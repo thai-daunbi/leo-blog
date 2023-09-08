@@ -32,6 +32,7 @@
 
       <!-- Submit Button -->
       <button type='submit'>Update Schedule</button>
+      <button onclick="cancelForm(event)">Cancel</button>
     </form>
 
     <!-- Add JavaScript code to submit the form and handle adding/removing checkboxes -->
