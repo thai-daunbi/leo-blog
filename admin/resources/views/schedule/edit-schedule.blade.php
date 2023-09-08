@@ -15,7 +15,8 @@
 
 <body>
 
-<form method="PUT" action="/schedule/update/{{ $schedule->id }}" id="edit-event-form">
+<form method="POST" action="{{ route('update-schedule2', ['id' => $schedule->id]) }}" id="edit-event-form">
+
     @csrf
     @method('PUT')
 
@@ -23,17 +24,18 @@
     <label for="start-date">Start Date:</label>
     <input type='text' id='start-date' name='start_date' class='date' value="{{ \Carbon\Carbon::parse($schedule->start)->format('Y-m-d') }}"><br><br>
 
-	<!-- End Date -->
-	<label for='end-date'>End date:</label>
-	<input type='text' id='end-date' name='end_date' class='date' value="{{ \Carbon\Carbon::parse($schedule->end)->format('Y-m-d') }}"><br><br>
+    <!-- End Date -->
+    <label for='end-date'>End date:</label>
+    <input type='text' id='end-date' name='end_date' class='date' value="{{ \Carbon\Carbon::parse($schedule->end)->format('Y-m-d') }}"><br><br>
 
-	<!-- Start Time -->
-	<label for='start-time'>Start time:</label>
-	<input type="time" id="start-time" name="start_time" class="time" required value="{{ \Carbon\Carbon::parse($schedule->start)->format('H:i') }}"><br><br>
+    <!-- Start Time -->
+    <label for='start-time'>Start time:</label>
+    <input type="time" id="start-time" name="start_time" class="time" required value="{{ \Carbon\Carbon::parse($schedule->start)->format('H:i') }}"><br><br>
 
-	<!-- End Time-->
-	<label for="end-time"> End time:</label>
-	<input type="time" id="end-time" name="end_time" class="time" required value="{{ \Carbon\Carbon::parse($schedule->end)->format('H:i') }}"><br><br>
+    <!-- End Time-->
+    <label for="end-time"> End time:</label>
+    <input type="time" id="end-time" name="end_time" class="time" required value="{{ \Carbon\Carbon::parse($schedule->end)->format('H:i') }}"><br><br>
+
    
      <!-- Update Button -->
      <button type="submit">Update</button>
@@ -50,10 +52,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var todayDate = new Date().toISOString().slice(0, 10);
-    $('#start-date').val(todayDate);
-    $('#end-date').val(todayDate);
-    $('#start-time').val('09:00 AM');
-    $('#end-time').val('10:00 AM');
+
+    // 아래 코드를 추가하여 데이터베이스에서 가져온 값으로 기본값 설정
+    $('#start-date').val("{{ \Carbon\Carbon::parse($schedule->start)->format('Y-m-d') }}");
+    $('#end-date').val("{{ \Carbon\Carbon::parse($schedule->end)->format('Y-m-d') }}");
+    $('#start-time').val("{{ \Carbon\Carbon::parse($schedule->start)->format('H:i') }}");
+    $('#end-time').val("{{ \Carbon\Carbon::parse($schedule->end)->format('H:i') }}");
 
     var endDate = todayDate;
 
@@ -77,7 +81,6 @@ document.addEventListener('DOMContentLoaded', function() {
         enableTime: true,
         noCalendar: true,
         dateFormat: "h:i K",
-        defaultDate: "09:00 AM",
         onChange: function(selectedTime) {
             updateEndTime($('#start-date').val(), selectedTime[0]);
         }
@@ -86,8 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     flatpickr("#end-time", {
         enableTime: true,
         noCalendar: true,
-        dateFormat: "h:i K",
-        defaultDate: "10:00 AM"
+        dateFormat: "h:i K"
     });
 
     function updateEndTime(startDate, startTime) {

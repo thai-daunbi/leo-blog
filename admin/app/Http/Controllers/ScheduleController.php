@@ -129,9 +129,12 @@ public function updateSchedule2(Request $request, $id)
     $button2 = $request->has('button2') ? 1 : 0;
 
     // Schedule 모델을 찾아서 수정
+    $startDateTime = \Carbon\Carbon::createFromFormat('Y-m-d g:i A', $request->input('start_date') . ' ' . $request->input('start_time'));
+    $endDateTime = \Carbon\Carbon::createFromFormat('Y-m-d g:i A', $request->input('end_date') . ' ' . $request->input('end_time'));
+    
     $schedule = Schedule::findOrFail($id);
-    $schedule->start = $request->start_date . ' ' . $request->start_time;
-    $schedule->end = $request->end_date . ' ' . $request->end_time;
+    $schedule->start = $startDateTime;
+    $schedule->end = $endDateTime;
     $schedule->button1 = $button1;
     $schedule->button2 = $button2;
     $schedule->save();
@@ -151,6 +154,7 @@ public function updateSchedule2(Request $request, $id)
     // 리디렉션
     return redirect('/schedule');
 }
+
 
     public function deleteSchedule($id)
     {
