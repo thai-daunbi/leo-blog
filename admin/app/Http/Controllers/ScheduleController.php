@@ -77,6 +77,16 @@ class ScheduleController extends Controller
 
         $schedule->save();
 
+        $defaultStudents = [
+            ['name' => 'yuuki'],
+            ['name' => 'umi'],
+        ];
+    
+        foreach ($defaultStudents as $studentData) {
+            $student = new Student($studentData);
+            $schedule->students()->save($student);
+        }
+
         return response()->json(['success' => true]);
     }
 
