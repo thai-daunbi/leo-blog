@@ -47,7 +47,7 @@ class ScheduleController extends Controller
         $result_events = [];
 
         foreach ($events as $event) {
-            $students = $event->students->pluck('name')->toArray(); // 학생 이름 가져오기
+            $students = $event->students->pluck('name')->toArray(); 
             $result_events[] = array(
                 'id' => $event->id,
                 'title' => $event->title,
@@ -55,7 +55,7 @@ class ScheduleController extends Controller
                 'end' => $event->end,
                 'button1' => $event->button1,
                 'button2' => $event->button2,
-                'students' => $students, // 학생 정보 추가
+                'students' => $students, 
             );
         }
 
@@ -149,19 +149,19 @@ public function updateSchedule2(Request $request, $id)
     // Schedule 모델을 찾아서 수정
     $startDateTime = \Carbon\Carbon::createFromFormat('Y-m-d g:i A', $request->input('start_date') . ' ' . $request->input('start_time'));
     $endDateTime = \Carbon\Carbon::createFromFormat('Y-m-d g:i A', $request->input('end_date') . ' ' . $request->input('end_time'));
-    
+
     $schedule = Schedule::findOrFail($id);
+    $schedule->title = $request->input('title'); // 타이틀 업데이트 추가
     $schedule->start = $startDateTime;
     $schedule->end = $endDateTime;
     $schedule->button1 = $button1;
     $schedule->button2 = $button2;
     $schedule->save();
 
+    // 학생들 업데이트 로직 추가
     $students = $request->input('students', []); // 학생 정보 배열 가져오기
-
     // 스케줄과 연결된 모든 학생 정보를 삭제하고 다시 추가
     $schedule->students()->delete(); // 이 스케줄과 연결된 모든 학생 정보 삭제
-
     foreach ($students as $studentName) {
         $student = new Student([
             'name' => $studentName,
@@ -172,6 +172,7 @@ public function updateSchedule2(Request $request, $id)
     // 리디렉션
     return redirect('/schedule');
 }
+
 
 
     public function deleteSchedule($id)

@@ -15,33 +15,43 @@
 
 <body>
 
+<h3>Edit Schedule</h3>
+
 <form method="POST" action="{{ route('update-schedule2', ['id' => $schedule->id]) }}" id="edit-event-form">
 
     @csrf
     @method('PUT')
 
-    <!-- Start Date -->
+    <label for="title">Title:</label>
+    <input type='text' id='title' name='title' value="{{ $schedule->title }}"><br><br>
+
+
+    
     <label for="start-date">Start Date:</label>
     <input type='text' id='start-date' name='start_date' class='date' value="{{ \Carbon\Carbon::parse($schedule->start)->format('Y-m-d') }}"><br><br>
 
-    <!-- End Date -->
+    
     <label for='end-date'>End date:</label>
     <input type='text' id='end-date' name='end_date' class='date' value="{{ \Carbon\Carbon::parse($schedule->end)->format('Y-m-d') }}"><br><br>
 
-    <!-- Start Time -->
+    
     <label for='start-time'>Start time:</label>
     <input type="time" id="start-time" name="start_time" class="time" required value="{{ \Carbon\Carbon::parse($schedule->start)->format('H:i') }}"><br><br>
 
-    <!-- End Time-->
+    
     <label for="end-time"> End time:</label>
     <input type="time" id="end-time" name="end_time" class="time" required value="{{ \Carbon\Carbon::parse($schedule->end)->format('H:i') }}"><br><br>
 
-   
-     <!-- Update Button -->
+    <label for="students">Students:</label>
+    <select id="students" name="students[]" multiple>
+        @foreach ($schedule->students as $student)
+            <option value="{{ $student->name }}" selected>{{ $student->name }}</option>
+        @endforeach
+    </select><br><br>
+     
      <button type="submit">Update</button>
  </form>
 
-   <!-- Delete Button -->
    {{-- Confirm before deleting --}}
   <form method="POST" action="/schedule/{{$schedule->id}}" onsubmit="return confirm('Are you sure you want to delete this schedule?');">
       @csrf
@@ -53,7 +63,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     var todayDate = new Date().toISOString().slice(0, 10);
 
-    // 아래 코드를 추가하여 데이터베이스에서 가져온 값으로 기본값 설정
+    
     $('#start-date').val("{{ \Carbon\Carbon::parse($schedule->start)->format('Y-m-d') }}");
     $('#end-date').val("{{ \Carbon\Carbon::parse($schedule->end)->format('Y-m-d') }}");
     $('#start-time').val("{{ \Carbon\Carbon::parse($schedule->start)->format('H:i') }}");
@@ -95,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateEndTime(startDate, startTime) {
         startDate = new Date(startDate);
         startTime = startTime || new Date('2023-01-01T09:00:00');
-        var endTime = new Date(startDate.getTime() + 60 * 60 * 1000);
+        var endTime = new Date(startDate.getTime() + startTime.getHours() * 60 * 60 * 1000 + startTime.getMinutes() * 60 * 1000);
         endTime.setHours(startTime.getHours() + 1, startTime.getMinutes());
         $('#end-date').val(endTime.toISOString().slice(0, 10));
         $('#end-time').val(endTime.toLocaleTimeString('en-US', {
