@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
     flatpickr("#start-time", {
         enableTime: true,
         noCalendar: true,
-        dateFormat: "h:i K",
+        dateFormat: "H:i",
         onChange: function(selectedTime) {
             updateEndTime($('#start-date').val(), selectedTime[0]);
         }
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
     flatpickr("#end-time", {
         enableTime: true,
         noCalendar: true,
-        dateFormat: "h:i K"
+        dateFormat: "H:i"
     });
 
     function updateEndTime(startDate, startTime) {
@@ -107,12 +107,13 @@ document.addEventListener('DOMContentLoaded', function() {
         startTime = startTime || new Date('2023-01-01T09:00:00');
         var endTime = new Date(startDate.getTime() + startTime.getHours() * 60 * 60 * 1000 + startTime.getMinutes() * 60 * 1000);
         endTime.setHours(startTime.getHours() + 1, startTime.getMinutes());
+        
+        // 시간을 24시간 형식으로 변경하여 표시
+        var endHour = endTime.getHours().toString().padStart(2, '0');
+        var endMinute = endTime.getMinutes().toString().padStart(2, '0');
+        
         $('#end-date').val(endTime.toISOString().slice(0, 10));
-        $('#end-time').val(endTime.toLocaleTimeString('en-US', {
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true
-        }));
+        $('#end-time').val(endHour + ':' + endMinute);
     }
 });
 </script>

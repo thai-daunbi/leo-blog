@@ -19,7 +19,7 @@
         <label for="end-date">End Date:</label>
         <input type="date" id="end-date" name="end-date" required><br><br>
         <label for="start-time">Start Time:</label>
-        <input type="time" id="start-time" name="start-time" required><br><br>
+        <input type="time" id="start-time" name="start-time" required onchange="updateEndTime()"><br><br>
         <label for="end-time">End Time:</label>
         <input type="time" id="end-time" name="end-time" required><br><br>
         <input type="submit" value="Add schedule">
@@ -63,6 +63,20 @@
             });
 
             return false; // 폼 제출 방지
+        }
+
+        function updateEndTime() {
+            var startTime = document.getElementById("start-time").value;
+            if (isValidTime(startTime)) {
+                var startDate = document.getElementById("start-date").value;
+                var startDateTime = new Date(startDate + "T" + startTime);
+                var endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000);
+
+                // 끝나는 시간 필드 업데이트
+                var endHour = endDateTime.getHours().toString().padStart(2, '0');
+                var endMinute = endDateTime.getMinutes().toString().padStart(2, '0');
+                document.getElementById("end-time").value = endHour + ":" + endMinute;
+            }
         }
 
         function isValidDate(dateString) {
