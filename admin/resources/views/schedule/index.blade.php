@@ -36,9 +36,10 @@
                                     title: event.title,
                                     start: new Date(event.start),
                                     end: new Date(event.end),
-                                    id: event.id, 
-                                    button1: event.button1, 
-                                    button2: event.button2 
+                                    id: event.id,
+                                    button1: event.button1,
+                                    button2: event.button2,
+                                    students: event.students // Add students data to the event
                                 }));
                                 successCallback(parsedEvents);
                             } else {
@@ -51,13 +52,13 @@
                         const button = document.createElement('button');
                         button.innerText = '+';
                         button.addEventListener('click', function () {
-                            window.location.href = '/edit-schedule/' + info.event.id; 
+                            window.location.href = '/edit-schedule/' + info.event.id;
                         });
 
                         const button1 = document.createElement('button');
                         button1.innerText = '-';
                         button1.addEventListener('click', function () {
-                            window.location.href = '/edit-schedule2/' + info.event.id; 
+                            window.location.href = '/edit-schedule2/' + info.event.id;
                         });
 
                         const button1Label = document.createElement('span');
@@ -66,16 +67,22 @@
                         const button2Label = document.createElement('span');
                         button2Label.innerText = info.event.extendedProps.button2 === 1 ? 'うみ' : '';
 
+                        const students = info.event.extendedProps.students; // 학생 정보 가져오기
+
+                        const studentsLabel = document.createElement('div');
+                        studentsLabel.innerText = students.join(', '); // 학생 이름을 쉼표로 구분하여 표시
+
                         const containerDiv = document.createElement('div');
 
                         containerDiv.appendChild(button);
                         containerDiv.appendChild(button1);
+                        containerDiv.appendChild(studentsLabel); // 학생 정보 엘리먼트 추가
 
                         if (info.event.extendedProps.button1 === 1) {
-                        const button1Container = document.createElement('div');
-                        button1Container.appendChild(button1Label);
-                        containerDiv.appendChild(button1Container);
-                        containerDiv.appendChild(document.createTextNode(" "));
+                            const button1Container = document.createElement('div');
+                            button1Container.appendChild(button1Label);
+                            containerDiv.appendChild(button1Container);
+                            containerDiv.appendChild(document.createTextNode(" "));
                         }
 
                         if (info.event.extendedProps.button2 === 1) {
@@ -85,6 +92,7 @@
                         }
                         info.el.appendChild(containerDiv);
                     },
+
                     customButtons: {
                         addEventButton: {
                             text: 'Add schedule',

@@ -39,25 +39,29 @@ class ScheduleController extends Controller
         $start = Carbon::parse($request->input('start'));
         $end = Carbon::parse($request->input('end'));
 
-        $events = Schedule::whereBetween('start', [$start, $end])
+        $events = Schedule::with('students')
+            ->whereBetween('start', [$start, $end])
             ->orWhereBetween('end', [$start, $end])
             ->get();
 
         $result_events = [];
 
         foreach ($events as $event) {
+            $students = $event->students->pluck('name')->toArray(); // 학생 이름 가져오기
             $result_events[] = array(
                 'id' => $event->id,
                 'title' => $event->title,
                 'start' => $event->start,
                 'end' => $event->end,
                 'button1' => $event->button1,
-                'button2' => $event->button2
+                'button2' => $event->button2,
+                'students' => $students, // 학생 정보 추가
             );
         }
 
         return response()->json($result_events);
     }
+
 
     public function saveEvent(Request $request)
     {
@@ -130,6 +134,10 @@ class ScheduleController extends Controller
 
     // 리디렉션
     return redirect('/schedule');
+}
+public function students()
+{
+    return $this->hasMany(Student::class);
 }
 
 public function updateSchedule2(Request $request, $id)
