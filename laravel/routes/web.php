@@ -40,3 +40,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dislike', [PostController::class, 'fetchDislike']);
     Route::post('/dislike/{id}', [PostController::class, 'handleDislike']);
 });
+
+Route::resource('/schedule', App\Http\Controllers\ScheduleController::class);
