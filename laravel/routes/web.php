@@ -41,4 +41,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dislike/{id}', [PostController::class, 'handleDislike']);
 });
 
+//Schedule
 Route::resource('/schedule', App\Http\Controllers\ScheduleController::class);
+Route::get('/api/get-events', [App\Http\Controllers\ScheduleController::class, 'getEvents']);
