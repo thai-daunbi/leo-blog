@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,5 +19,18 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        DB::table('schedules')->insert([
+            'title' => 'Example Event 1',
+            'start' => now(),
+            'end' => now()->addHours(2),
+            'button1' => '0',
+            'button2' => '0',
+            'button3' => '0',
+            'button4' => '0',
+            'button5' => '0',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

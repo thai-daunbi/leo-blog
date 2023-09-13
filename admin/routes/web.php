@@ -50,3 +50,24 @@ Route::get('/deactivate-user/{id}', [App\Http\Controllers\ProfileController::cla
 Route::get('/activate-user/{id}', [App\Http\Controllers\ProfileController::class, 'activateUser'])->name('activate-user');
 
 
+Route::resource('/schedule', App\Http\Controllers\ScheduleController::class);
+
+Route::get('/add-event', function () {
+    return view('schedule/add-event');
+});
+
+Route::put('/api/save-event', [App\Http\Controllers\ScheduleController::class, 'saveEvent']);
+
+Route::get('/api/get-events', [App\Http\Controllers\ScheduleController::class, 'getEvents']);
+
+Route::post('/save-event', [App\Http\Controllers\ScheduleController::class, 'saveEvent']);
+Route::get('/edit-schedule/{id}', [App\Http\Controllers\ScheduleController::class, 'editSchedule'])->name('edit-schedule');
+Route::post('/update-schedule/{id}', [App\Http\Controllers\ScheduleController::class, 'updateSchedule'])->name('update-schedule');
+Route::get('/edit-schedule2/{id}', [App\Http\Controllers\ScheduleController::class, 'editSchedule2'])->name('edit-schedule2');
+
+Route::put('/schedule/update/{id}', [App\Http\Controllers\ScheduleController::class, 'updateSchedule'])->name('update-schedule');
+Route::delete('/schedule/{id}', [App\Http\Controllers\ScheduleController::class, 'deleteSchedule'])->name('delete-schedule');
+
+Route::put('/schedule/update2/{id}', [App\Http\Controllers\ScheduleController::class, 'updateSchedule2'])->name('update-schedule2');
+
+
