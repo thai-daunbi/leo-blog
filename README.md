@@ -4,6 +4,22 @@
 ```aidl
 docker-compose -f "docker-compose.yml" up -d --build
 ```
+### 각 폴더에서 (laravel, admin) composer.json패키지 설치
+```aidl
+composer install
+```
+### 각 폴더에서 (laravel, admin) package.json패키지 설치
+```aidl
+npm install
+```
+### Start the development server
+```aidl
+npm run dev
+```
+### Database seed (admin폴더에서 실행)
+```aidl
+php artisan db:seed
+```
 ### file name : leo-blog
 ### branches name: feature/4-schedule add checkbox
 
@@ -11,8 +27,6 @@ docker-compose -f "docker-compose.yml" up -d --build
 ## admin :http://localhost:8092
 
 ## problem
-- 체크 박스값이 데이터베이스로 전달이 안 됨
--  AdminLTE 사이드바에 메뉴를 추가하고 싶은데 코드를 찾지 못해, 추가 못하는 중
 
 
 ## how to start
