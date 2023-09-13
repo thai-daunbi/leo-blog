@@ -4,6 +4,10 @@
 ```aidl
 docker-compose -f "docker-compose.yml" up -d --build
 ```
+### 각 파일에서 (laravel, admin) composer.json패키지 설치
+```aidl
+composer install
+```
 ### file name : leo-blog
 ### branches name: feature/4-schedule add checkbox
 
