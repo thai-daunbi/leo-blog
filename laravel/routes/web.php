@@ -45,4 +45,4 @@ Route::middleware(['auth'])->group(function () {
 Route::resource('/schedule', App\Http\Controllers\ScheduleController::class);
 Route::get('/api/get-events', [App\Http\Controllers\ScheduleController::class, 'getEvents']);
 Route::get('/edit-schedule/{id}', [App\Http\Controllers\ScheduleController::class, 'editSchedule'])->name('edit-schedule');
-Route::post('/update-schedule/{id}', [App\Http\Controllers\ScheduleController::class, 'updateSchedule'])->name('update-schedule');
+Route::put('/update-schedule/{id}', [App\Http\Controllers\ScheduleController::class, 'updateSchedule'])->name('update-schedule');
