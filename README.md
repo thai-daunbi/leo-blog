@@ -16,6 +16,10 @@ npm install
 ```aidl
 npm run dev
 ```
+### Database seed (admin폴더에서 실행)
+```aidl
+php artisan db:seed
+```
 ### file name : leo-blog
 ### branches name: feature/4-schedule add checkbox
 
