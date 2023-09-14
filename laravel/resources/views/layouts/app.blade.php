@@ -54,7 +54,8 @@
                                 </li>
                             @endif
                         @else
-                            <li class="active"><a href="{{ route('home')}}" class="float-right">Home</a></li>
+                            <li class="active"><a href="{{ route('home')}}" class="float-right">Blog</a></li>
+                            <li class="active"><a href="{{ url('/schedule') }}" class="float-right">Schedule</a></li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
